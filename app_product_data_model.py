@@ -231,7 +231,7 @@ CREATE TABLE produtos_detalhados_materializada AS
 SELECT * FROM produtos_detalhados;
 
 -- Adicionando índice full-text
-CREATE FULLTEXT INDEX ft_index ON produtos_detalhados_materializada (nome_produto, descricao, nome_categoria, nome_subcategoria, nome_marca);
+CREATE FULLTEXT INDEX ft_index ON produtos_detalhados_materializada (nome_produto, descricao, nome_categoria, nome_subcategoria, nome_marca, nome_cor);
 '''
 def filtrar_produtos_detalhados_materializada(query_str: str = None, max_results: int = 3, normalize_string: bool = False) -> List[ProdutoDetalhadoMaterializado]:
     with ConexaoBanco.criar_sessao() as session:
