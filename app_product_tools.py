@@ -16,7 +16,6 @@ from langchain.chains import LLMChain, RetrievalQA
 from langchain.llms import BaseLLM
 from langchain.chains.base import Chain
 from langchain_openai import ChatOpenAI
-from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain.tools.retriever import create_retriever_tool
 from langchain.text_splitter import CharacterTextSplitter
