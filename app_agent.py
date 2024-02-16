@@ -17,7 +17,7 @@ from app_memory import carregar_chat_history
 from app_product_tools import get_app_tools
 
 system_prompt = """
-You work as a customer service representative at the company Tem de Tudo.
+You work as a customer service representative at the company Tem de Tudo - T&T.
 The company Tem de Tudo sells a variety of household and office items.
 
 Remember: 

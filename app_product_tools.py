@@ -24,6 +24,9 @@ from langchain_community.vectorstores import Chroma, Qdrant, FAISS
 from langchain_community.document_loaders import TextLoader
 from tenacity import retry_unless_exception_type
 from langchain_community.tools import HumanInputRun
+from langchain.indexes import VectorstoreIndexCreator
+from langchain.chains import RetrievalQA
+from langchain_community.document_loaders import UnstructuredFileLoader
 
 from app_product_data_model import ConexaoBanco, adicionar_itens_carrinho, apagar_carrinho, carrinho_para_json, criar_carrinho, filtrar_produtos_detalhados, filtrar_produtos_detalhados_materializada, listar_categorias, object_to_dict, produtos_para_json, remover_item_carrinho
 
@@ -49,7 +52,15 @@ def responder_duvida(duvida:str) -> str:
     útil para quando você precisa responder a perguntas do usuário que não estão relacionadas à comprar um produto.
     Exemplos de dúvidas: Horário de funcionamento, politicas de devolução, modos de pagamento, etc.
     """
-    return "Não há resposta para a sua pergunta."
+
+    fname = "./faq_tem_de_tudo.txt"
+    loader = UnstructuredFileLoader(fname)
+    index = VectorstoreIndexCreator()
+    doc = index.from_loaders([loader])
+    chain = RetrievalQA.from_chain_type(llm=ChatOpenAI(temperature=0,model=os.getenv("MODEL_NAME")),chain_type="stuff",retriever=doc.vectorstore.as_retriever(),input_key="question")
+    response = chain.invoke({"question":duvida})
+
+    return response["result"]
 
 
 @tool
