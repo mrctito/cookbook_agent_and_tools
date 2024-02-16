@@ -233,7 +233,7 @@ SELECT * FROM produtos_detalhados;
 -- Adicionando índice full-text
 CREATE FULLTEXT INDEX ft_index ON produtos_detalhados_materializada (nome_produto, descricao, nome_categoria, nome_subcategoria, nome_marca, nome_cor);
 '''
-def filtrar_produtos_detalhados_materializada(query_str: str = None, max_results: int = 3, normalize_string: bool = False) -> List[ProdutoDetalhadoMaterializado]:
+def filtrar_produtos_detalhados_materializada(query_str: str = None, with_stock: bool = True, max_results: int = 3, normalize_string: bool = False) -> List[ProdutoDetalhadoMaterializado]:
     with ConexaoBanco.criar_sessao() as session:
         if query_str:
             if normalize_string:
@@ -245,13 +245,25 @@ def filtrar_produtos_detalhados_materializada(query_str: str = None, max_results
             
             # Executa a consulta usando MATCH ... AGAINST
             query = session.query(ProdutoDetalhadoMaterializado).filter(text(match_clause)).params(query=query_str)
+            
+            # Filtra apenas os produtos com estoque diferente de zero, se necessário
+            if with_stock:
+                query = query.filter(ProdutoDetalhadoMaterializado.estoque > 0)
+
             query = query.limit(max_results)
 
             return query.all()
         else:
             # Se não houver uma string de consulta, retorna os primeiros max_results produtos
-            return session.query(ProdutoDetalhadoMaterializado).limit(max_results).all()
-
+            query = session.query(ProdutoDetalhadoMaterializado)
+            
+            # Filtra apenas os produtos com estoque diferente de zero, se necessário
+            if with_stock:
+                query = query.filter(ProdutoDetalhadoMaterializado.estoque > 0)
+            
+            query = query.limit(max_results)
+            
+            return query.all()
 
 
 def produtos_para_json_str(produtos):
