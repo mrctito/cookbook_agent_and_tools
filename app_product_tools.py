@@ -51,7 +51,7 @@ def responder_duvida(duvida:str) -> str:
     útil para quando você precisa responder a perguntas do usuário que não estão relacionadas à comprar um produto.
     Exemplos de dúvidas: Horário de funcionamento, politicas de devolução, modos de pagamento, etc.
     """
-
+    print("Pesquisando resposta para a dúvida do cliente...\n")
     fname = "./faq_tem_de_tudo.txt"
     loader = UnstructuredFileLoader(fname)
     index = VectorstoreIndexCreator()
@@ -97,7 +97,7 @@ def registrar_item_desejo_cliente(email:str, produto_desejado:str) -> str:
     Returns:
         str: Mensagem de retorno.
     """    
-    print(f"\nRegistrando pedido do cliente: {email} = {produto_desejado}\n")
+    print(f"\nRegistrando desejo do cliente: {email} = {produto_desejado}\n")
     return "Lembrete registrado com sucesso!"
 
 
