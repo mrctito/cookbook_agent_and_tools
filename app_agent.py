@@ -81,7 +81,7 @@ Usuário: {input}
 
 
 def app_agent_main():
-    verbose = False
+    verbose = True
 
     prompt = ChatPromptTemplate.from_messages(
         [
@@ -119,7 +119,8 @@ def app_agent_main():
     human_input_agent_executor = AgentExecutor(agent=human_input_agent, 
                                                 tools=tools, 
                                                 memory = memory,
-                                                max_iterations=5,
+                                                max_iterations=3,
+                                                max_execution_time=30.0,
                                                 early_stopping_method='generate',
                                                 verbose=verbose, 
                                                 handle_parsing_errors=True, 
