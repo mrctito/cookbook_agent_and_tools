@@ -103,7 +103,7 @@ def app_agent_main():
                                              chat_memory=chat_memory)
     
     memory_summary = ConversationSummaryBufferMemory(llm=llm2, 
-                                             max_token_limit=2000,
+                                             max_token_limit=1000,
                                              input_key="input",
                                              memory_key="chat_history2",
                                              chat_memory=chat_memory)
