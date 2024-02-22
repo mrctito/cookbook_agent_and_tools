@@ -81,6 +81,8 @@ Usuário: {input}
 
 
 def app_agent_main():
+    verbose = False
+
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_prompt),
@@ -119,7 +121,7 @@ def app_agent_main():
                                                 memory = memory,
                                                 max_iterations=5,
                                                 early_stopping_method='generate',
-                                                verbose=True, 
+                                                verbose=verbose, 
                                                 handle_parsing_errors=True, 
                                                 #return_intermediate_steps=True,
                                             )
@@ -132,7 +134,7 @@ def app_agent_main():
             break
         usr = f"{user_input}"
 
-        #intencao = obtem_intencao(usr, verbose=False)
+        #intencao = obtem_intencao(usr, verbose=verbose)
         #print(f"\nIntenção: {intencao}")
         #acao = obtem_acao(intencao)
         #print(f"Ação: {acao}\n")
